@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "(rm -rf /build) && tsc"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
