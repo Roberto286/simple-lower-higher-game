@@ -1,8 +1,15 @@
 {
   "scripts": {
-    "build": "(rm -rf /build) && tsc"
+    "build": "(rm -rf /build) && tsc",
+    "dev": "ts-node ./ts-files/main.ts"
   },
   "dependencies": {
     "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.3",
+    "cd": "^0.3.3",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.0"
   }
 }
