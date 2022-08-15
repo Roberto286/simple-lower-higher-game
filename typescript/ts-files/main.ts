@@ -49,7 +49,7 @@ class Game {
 		console.log('GAME OVER');
 		let playAgain: string = input('wanna play again? y|n');
 		while (playAgain !== 'y' && playAgain !== 'n') {
-			playAgain = input('play again? y|n');
+			playAgain = input('play again? y|n: ');
 		}
 		switch (playAgain) {
 			case 'y':
@@ -82,7 +82,13 @@ while (!game) {
 			console.log(`higher, you have ${--game.possibilities} possibilities`);
 			playerNumber = +input('');
 		}
+		if (game.possibilities <= 1) {
+			game.gameOver();
+			break;
+		}
 	}
-	console.log('YEAH!!');
-	game.gameOver();
+	if (game && playerNumber === game.numberToGuess) {
+		console.log('YEAH!!');
+		game.gameOver();
+	}
 }
