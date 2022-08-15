@@ -1,17 +1,20 @@
-const input = require('prompt-sync')({ sigint: true });
+const input: NodeRequire = require('prompt-sync')({ sigint: true });
+
 const welcomeMessage: string = 'higher or lower game';
 let difficulty: number = 0;
 let game: Game | null = null;
+
 const welcome = (): void => {
 	console.log(welcomeMessage);
 };
+
 const startGame = (): void => {
 	let start: number = 0;
 	welcome();
 	while (start !== 1 && start !== 2 && start !== 3) {
-		start = +input('Choose difficulty level: ');
+		start = +input('Choose difficulty level from 1/2/3: ');
 		if (start !== 1 && start !== 2 && start !== 3) {
-			console.error('invalid number');
+			console.error('invalid difficulty level');
 			continue;
 		}
 		difficulty = start;
@@ -19,12 +22,13 @@ const startGame = (): void => {
 };
 class Game {
 	difficulty: number;
-	numberToGuess: number;
-
+	numberToGuess: number = 0;
+	possibilities: number = 0;
 	constructor(difficulty: number) {
 		this.difficulty = difficulty;
-		this.numberToGuess = 0;
+		this.possibilities = 10;
 	}
+
 	generateNumber(): void {
 		let maxNum: number = 0;
 		switch (this.difficulty) {
@@ -40,6 +44,7 @@ class Game {
 		}
 		this.numberToGuess = Math.floor(Math.random() * maxNum) + 1;
 	}
+
 	gameOver(): void {
 		console.log('GAME OVER');
 		let playAgain: string = input('wanna play again? y|n');
@@ -58,13 +63,26 @@ class Game {
 		}
 	}
 }
+
 while (!game) {
 	startGame();
 	game = new Game(difficulty);
+	console.log(`let's go, you have ${game.possibilities} possibilities`);
 	game.generateNumber();
-	let playerNumber: number = +input('guess number');
-	while (playerNumber !== 1) {
-		playerNumber = +input('wrong number');
+	let playerNumber: number = +input('guess number: ');
+	while (!Number(playerNumber)) {
+		playerNumber = +input('wrong input');
 	}
+	while (playerNumber !== game.numberToGuess) {
+		if (playerNumber < game.numberToGuess) {
+			console.log(`lower, you have ${--game.possibilities} possibilities`);
+			playerNumber = +input('');
+		}
+		if (playerNumber > game.numberToGuess) {
+			console.log(`higher, you have ${--game.possibilities} possibilities`);
+			playerNumber = +input('');
+		}
+	}
+	console.log('YEAH!!');
 	game.gameOver();
 }
